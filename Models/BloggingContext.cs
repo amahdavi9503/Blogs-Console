@@ -23,6 +23,11 @@ namespace BlogsConsole.Models
             this.Blogs.Add(blog);  //add a blog DbSet
             this.SaveChanges();  //updates the database based on DbSet
         }
+        public void AddPost(Post post)
+        {
+            this.Posts.Add(post);
+            this.SaveChanges();
+        }
     }
 }
 
