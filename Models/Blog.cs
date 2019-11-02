@@ -8,6 +8,8 @@ namespace BlogsConsole.Models
         public string Name { get; set; }
 
         public List<Post> Posts { get; set; }
+
+        public List<Blog> Blogs { get; set; }
     }
 }
 
