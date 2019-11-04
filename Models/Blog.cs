@@ -7,9 +7,8 @@ namespace BlogsConsole.Models
         public int BlogId { get; set; }
         public string Name { get; set; }
 
-        public List<Post> Posts { get; set; }
+        public List<Post> Posts { get; set; }  // Each blog contains a collections of posts
 
-        public List<Blog> Blogs { get; set; }
     }
 }
 

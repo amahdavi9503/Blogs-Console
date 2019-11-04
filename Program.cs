@@ -25,71 +25,87 @@ namespace BlogsConsole
     {
         private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static object db { get; private set; }
+        //public static object db { get; private set; }
        
         public static void Main(string[] args)
         {
             logger.Info("Program started");
             try
             {
-                Console.WriteLine("1) Display all blogs");
-                Console.WriteLine("2) Add Blog");
-                Console.WriteLine("3) Create Post");
-                Console.WriteLine("4) EXIT");
-                Console.Write("Please enter your choice (1, 2, 3, 4): ");
-                var MenuChoice = Console.ReadLine();
-
-                if (MenuChoice == "1")
+                var MenuChoice = "x";
+                while (MenuChoice.ToUpper() != "Q")
                 {
-                    // Display all Blogs from the database
-                    var query = db.Blogs.OrderBy(b => b.Name);
-
-                    Console.WriteLine("Here's a list of All blogs in the database:");
-                    foreach (var item in query)
-                    {
-                        Console.WriteLine(item.Name);
-                    }
-                }
-
-                 else if (MenuChoice == "2")
-                {
-                    // Create and save a new Blog
-                    Console.Write("Enter a name for a new Blog: ");
-                    var name = Console.ReadLine();
-
-                    var blog = new Blog { Name = name };
+                    Console.WriteLine("1) Display all blogs");
+                    Console.WriteLine("2) Add Blog");
+                    Console.WriteLine("3) Create Post");
+                    Console.WriteLine("Press Q to quit");
+                    Console.Write("Please enter your choice (1, 2, 3, 4): ");
+                    
+                    MenuChoice = Console.ReadLine();
 
                     var db = new BloggingContext();
-                    db.AddBlog(blog);
-                    logger.Info("Blog added - {name}", name);
-                }
 
-                else if (MenuChoice == "3")
-                {
-                    // Create a blog post
-                    Console.WriteLine("Enter the blog you want to create a post for: ");
-                    var blogName = Console.ReadLine();
+                    if (MenuChoice == "1")
+                    {
+                        // Display all Blogs from the database
+                        var query = db.Blogs.OrderBy(b => b.Name);
 
-                    var blog = db.Blogs.FirstOrDefault(b => b.Name == blogName);
-                    Console.Write("Enter post title: ");
-                    var postTitle = Console.ReadLine();
+                        Console.WriteLine();
+                        Console.WriteLine("Here's a list of All blogs in the database:");
+                        foreach (var item in query)
+                        {
+                            Console.WriteLine(item.Name);
+                        }
 
-                    Console.Write("Enter post content: ");
-                    var postContent = Console.ReadLine();
+                        Console.WriteLine();
+                    }
 
-                    Post newPost = new Post { Title = postTitle, Content = postContent, Blog = blog };
-                    db.AddPost(newPost);
-                }
+                    else if (MenuChoice == "2")
+                    {
+                        // Create and save a new Blog
+                        Console.WriteLine();
+                        Console.Write("Enter a name for a new Blog: ");
+                        var name = Console.ReadLine();
 
-                else if (MenuChoice == "4")
-                {
-                    logger.Info("Program Ended");
-                    Environment.Exit(0);  //Exit the application
-                }
+                        var blog = new Blog { Name = name };
 
-                else
-                {
-                    Console.WriteLine("Please enter a valid menu option");
+                        db.AddBlog(blog);
+                        logger.Info("Blog added - {name}", name);
+                        Console.WriteLine();
+                    }
+
+                    else if (MenuChoice == "3")
+                    {
+                        // Create a blog post
+                        Console.WriteLine();
+                        Console.WriteLine("Enter the blog you want to create a post for: ");
+                        var blogName = Console.ReadLine();
+
+                        //var blog = db.Blogs.FirstOrDefault(b => b.Name == blogName);
+                        var blog = db.Blogs.FirstOrDefault(b => b.Name.ToUpper() == blogName.ToUpper());
+                        Console.Write("Enter post title: ");
+                        var postTitle = Console.ReadLine();
+
+                        Console.Write("Enter post content: ");
+                        var postContent = Console.ReadLine();
+
+                        Post newPost = new Post { Title = postTitle, Content = postContent, Blog = blog };
+                        db.AddPost(newPost);
+                        Console.WriteLine();
+                    }
+
+                    else if (MenuChoice.ToUpper() == "Q")
+                    {
+                        logger.Info("Program Ended");
+                        Environment.Exit(0);  //Exit the application
+                    }
+
+                    else
+                    {
+                        Console.WriteLine();
+                        Console.WriteLine("Please enter a valid menu option");
+                    }
+
                 }
 
             }
