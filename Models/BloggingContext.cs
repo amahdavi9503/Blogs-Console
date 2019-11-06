@@ -28,6 +28,17 @@ namespace BlogsConsole.Models
             this.Posts.Add(post);
             this.SaveChanges();
         }
+
+        
+
+        
+        //This method displays posts for a certain blog
+        /*public void DisplayPosts(Blog blog)
+        {
+            this.Posts.d
+            this.SaveChanges();
+        }*/
+        
     }
 }
 
